@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: iFile-Zuul
+  http:
+    encoding:
+      charset: UTF-8
+      force: true
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7001/eureka/
+  instance:
+    prefer-ip-address: true
+zuul:
+  add-host-header: true
+  host:
+    connect-timeout-millis: 10000
+  sensitive-headers:
+  prefix: /api
+  routes:
+    user:
+      path: /user/**
+      service-id: Service User # 微服务在注册中心的名称
+    file:
+      path: /file/**
+      service-id: Service File
+
+server:
+  port: 8000
