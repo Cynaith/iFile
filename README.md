@@ -3,10 +3,14 @@
  
 ### 项目结构
   
-iFile-Common 公共模块 
+iFile-Common 公共模块
+<br/>
 iFile-Server Eureka 7001
+<br/>
 iFile-Service-File 文件模块 8002
+<br/>
 iFile-Service-User 用户模块 8001
+<br/>
 iFile-Zuul 网关模块 8000
  
  
@@ -45,5 +49,23 @@ CREATE TABLE user_log(
 
 ### Redis集群的配置
 https://www.jianshu.com/p/87ff94358074
+<br/>
 https://blog.csdn.net/admans/article/details/99630511
 
+### Zuul
+- Redis-Hash 存储 Session数据
+    - Hash K
+        - SessionID 会话id
+    - Hash V
+        - V key
+            - 用户Session K
+        - V value
+            - 用户Session V
+- Redis-Set 存储全局 Session
+    - Set K
+        - ${系统名}
+    - Set V
+        - V key
+            - ip 登陆ip
+        - V value
+            - SessionID 会话id
