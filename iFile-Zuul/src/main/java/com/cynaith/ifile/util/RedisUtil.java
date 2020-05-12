@@ -10,7 +10,7 @@ import redis.clients.jedis.JedisPoolConfig;
  **/
 
 public class RedisUtil {
-    static JedisPool jedisPool = null;
+    public static JedisPool jedisPool = null;
     static {
         GenericObjectPoolConfig poolConfig = new JedisPoolConfig();
         //最大连接数
@@ -19,7 +19,7 @@ public class RedisUtil {
         poolConfig.setMaxIdle(10);
         //超时时间
         poolConfig.setMaxWaitMillis(3*1000);
-        jedisPool = new JedisPool(poolConfig,"106.12.130.1",9001,5*1000,"admin");
+        jedisPool = new JedisPool(poolConfig,"106.12.130.1",6379,5*1000,);
     }
 
     public static void set(String key,String value){
@@ -47,5 +47,31 @@ public class RedisUtil {
                 jedis.close();
         }
         return res;
+    }
+    public static void setnx(String key,String value){
+        Jedis jedis = jedisPool.getResource();
+
+        try{
+            jedis.setnx(key, value);
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            jedis.close();
+        }
+
+    }
+    public static boolean check(String key,String value){
+        Jedis jedis = jedisPool.getResource();
+        try {
+            if (value.equals(jedis.get(key))){
+                return true;
+            }
+            else return false;
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            jedis.close();
+        }
+        return false;
     }
 }

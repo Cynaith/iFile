@@ -21,6 +21,11 @@
             <version>1.2.62</version>
         </dependency>
         <dependency>
+            <groupId>com.github.cynaith</groupId>
+            <artifactId>LightRedis</artifactId>
+            <version>1.2-RELEASE</version>
+        </dependency>
+        <dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
             <version>3.2.0</version>
