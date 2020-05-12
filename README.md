@@ -53,18 +53,23 @@ https://www.jianshu.com/p/87ff94358074
 https://blog.csdn.net/admans/article/details/99630511
 
 ### Zuul
+- [解决浏览器Cookie禁用](https://blog.csdn.net/u014508939/article/details/78678790?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-4.nonecase&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-4.nonecase)
+- 判断是否屏蔽cookie
+    - name为“JSESSIONID”的cookie
 - Redis-Hash 存储 Session数据
-    - Hash K
+    - Hash K 记录用户登陆信息
         - SessionID 会话id
+        > 同一ip不同SessionID，将重命名SessionID
     - Hash V
         - V key
             - 用户Session K
         - V value
             - 用户Session V
+        > username token 
 - Redis-Set 存储全局 Session
     - Set K
         - ${系统名}
-    - Set V
+    - Set Vp
         - V key
             - ip 登陆ip
         - V value
