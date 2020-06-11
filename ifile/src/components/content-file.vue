@@ -1,6 +1,6 @@
 <template>
   <div id="content-file">
-    <el-upload id="upload-button" action="https://jsonplaceholder.typicode.com/posts/">
+    <el-upload id="upload-button" action="http://localhost:8002/upload">
       <el-button size="small" type="primary">点击上传</el-button>
     </el-upload>
     <transition name="el-fade-in">
