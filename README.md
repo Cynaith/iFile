@@ -38,35 +38,33 @@ CREATE KEYSPACE iFile WITH replication =
 use iFile;
 
 CREATE TABLE user_log(
-    logid BIGINT,
-    userid  BIGINT,
-    username text,
-    action text,
-    createtime date,
-    ip text,
-    PRIMARY KEY (logid)
+    username TEXT,
+    action TEXT,
+    createtime DATE,
+    ip TEXT,
+    PRIMARY KEY ((username),createtime)
 );
 
 CREATE TABLE file(
-    fileid BIGINT,
-    userid BIGINT,
+    username TEXT,
     filetype TEXT,
     createtime DATE,
     filedata BLOB,
     filename TEXT,
     filesuffix TEXT,
-    PRIMARY KEY ( fileid )
+    PRIMARY KEY (( username ),createtime)
 );
 
 CREATE TABLE user(
-    userid BIGINT,
     username TEXT,
     password TEXT,
-    kind TEXT,
-    PRIMARY KEY ( userid )
+    kind TEXT
 )
 ```
 
+### 为什么使用Cassandra做分布式缓存  
+对字段进行一致性Hash，优化Query效率  
+CAP满足可用性和分区容忍性，满足最终一致性，对于insert少的系统而言是可以接受的。
 
 ### Redis集群的配置
 https://www.jianshu.com/p/87ff94358074
