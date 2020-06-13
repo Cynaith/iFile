@@ -1,50 +1,57 @@
 package com.cynaith.ifile.pojo.domain;
 
 
+import org.springframework.data.cassandra.core.mapping.Column;
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.Table;
 
-import java.time.LocalDate;
+import java.io.Serializable;
+import java.util.Date;
 
 @Table("file")
-public class IFile {
+public class Ifile implements Serializable {
+
+  private static final long serialVersionUID = 8680836303185822596L;
 
   @PrimaryKey
-  private long fileid;
-  private LocalDate createtime;
-  private String filedata;
+  @Column("username")
+  private String username;
+  @Column("createtime")
+  private Date createtime;
+  @Column("fileid")
+  private String fileid;
+  @Column("filename")
   private String filename;
+  @Column("filesuffix")
   private String filesuffix;
+  @Column("filetype")
   private String filetype;
-  private long userid;
 
 
-  public long getFileid() {
-    return fileid;
+  public String getUsername() {
+    return username;
   }
 
-  public void setFileid(long fileid) {
-    this.fileid = fileid;
+  public void setUsername(String username) {
+    this.username = username;
   }
 
-  public LocalDate getCreatetime() {
+
+  public Date getCreatetime() {
     return createtime;
   }
 
-  public void setCreatetime(LocalDate createtime) {
+  public void setCreatetime(Date createtime) {
     this.createtime = createtime;
   }
 
-
-
-  public String getFiledata() {
-    return filedata;
+  public String getFileid() {
+    return fileid;
   }
 
-  public void setFiledata(String filedata) {
-    this.filedata = filedata;
+  public void setFileid(String fileid) {
+    this.fileid = fileid;
   }
-
 
   public String getFilename() {
     return filename;
@@ -70,15 +77,6 @@ public class IFile {
 
   public void setFiletype(String filetype) {
     this.filetype = filetype;
-  }
-
-
-  public long getUserid() {
-    return userid;
-  }
-
-  public void setUserid(long userid) {
-    this.userid = userid;
   }
 
 }

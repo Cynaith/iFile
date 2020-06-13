@@ -1,23 +1,25 @@
 package com.cynaith.ifile;
 
-import com.cynaith.ifile.pojo.domain.IFile;
+import com.cynaith.ifile.pojo.domain.Ifile;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.cassandra.core.CassandraTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest
-class IFileServiceFileApplicationTests {
+class IFileServiceIfileApplicationTests {
 
     @Autowired
-    CassandraTemplate template;
+    CassandraTemplate cassandraTemplate;
     @Test
     void contextLoads() {
-        List<IFile> file = template.select("select * from file", IFile.class);
-        file.forEach(iFile -> {
-            System.out.println(iFile.getFileid());
+        List<Ifile> list = new ArrayList<>();
+        list = cassandraTemplate.select("select * from file",Ifile.class);
+        list.forEach(ifile -> {
+            System.out.println(ifile.getFileid());
         });
     }
 
