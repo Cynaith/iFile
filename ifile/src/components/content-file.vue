@@ -1,6 +1,10 @@
 <template>
   <div id="content-file">
-    <el-upload id="upload-button" action="http://localhost:8002/upload">
+    <el-upload
+      id="upload-button"
+      action="http://localhost:8002/upload"
+      :beforeUpload="beforeAvatarUpload"
+    >
       <el-button size="small" type="primary">点击上传</el-button>
     </el-upload>
     <transition name="el-fade-in">
@@ -92,6 +96,14 @@ export default {
     handleSelectionChange (val) {
       this.multipleSelection = val;
       this.select_delete_button = !this.select_delete_button;
+    },
+    beforeAvatarUpload (file) {
+      const isLt500KB = file.size / 1024.0 / 1024.0 < 0.5;
+
+      if (!isLt500KB) {
+        this.$message.error('上传文件不能超过 500KB!');
+      }
+      return isLt500KB;
     }
   }
 }
