@@ -7,6 +7,10 @@ spring:
       keyspace-name: ifile
       contact-points: 106.12.130.1
       port: 9042
+  servlet:
+    multipart:
+      max-file-size: 1MB
+      max-request-size: 10MB
 server:
   port: 8002
 eureka:

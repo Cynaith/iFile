@@ -101,8 +101,8 @@ public class FileServiceImpl implements FileService {
             }
         }
 //        System.out.println(Arrays.toString(filebytes));
-        File file2 = new File("/Users/admin/Desktop/test/" + fileName);
-        File file1 = FileUtil.getFile(filebytes, file2);
+//        File file2 = new File("/Users/admin/Desktop/test/" + fileName);
+//        File file1 = FileUtil.getFile(filebytes, file2);
 
         // 操作完上的文件 需要删除在根目录下生成的文件
         File f = new File(file.toURI());
