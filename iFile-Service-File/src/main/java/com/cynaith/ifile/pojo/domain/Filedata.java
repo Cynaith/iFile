@@ -11,7 +11,7 @@ public class Filedata {
   @PrimaryKey
   private String fileid;
   @Column("fileno")
-  private long fileno;
+  private int fileno;
   @Column("filedata")
   private String filedata;
 
@@ -25,11 +25,11 @@ public class Filedata {
   }
 
 
-  public long getFileno() {
+  public int getFileno() {
     return fileno;
   }
 
-  public void setFileno(long fileno) {
+  public void setFileno(int fileno) {
     this.fileno = fileno;
   }
 
@@ -41,5 +41,4 @@ public class Filedata {
   public void setFiledata(String filedata) {
     this.filedata = filedata;
   }
-
 }

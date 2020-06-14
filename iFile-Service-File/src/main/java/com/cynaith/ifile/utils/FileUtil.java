@@ -33,16 +33,16 @@ public class FileUtil {
     /**
      * 根据byte数组，生成文件
      */
-    public static void getFile(byte[] bfile, String filePath,String fileName) {
+    public static File getFile(byte[] bfile,File file) {
         BufferedOutputStream bos = null;
         FileOutputStream fos = null;
-        File file = null;
+//        File file = null;
         try {
-            File dir = new File(filePath);
-            if(!dir.exists()&&dir.isDirectory()){//判断文件目录是否存在
-                dir.mkdirs();
-            }
-            file = new File(filePath+"\\"+fileName);
+//            File dir = new File(filePath);
+//            if(!dir.exists()&&dir.isDirectory()){//判断文件目录是否存在
+//                dir.mkdirs();
+//            }
+//            file = new File(filePath+"\\"+fileName);
             fos = new FileOutputStream(file);
             bos = new BufferedOutputStream(fos);
             bos.write(bfile);
@@ -64,5 +64,6 @@ public class FileUtil {
                 }
             }
         }
+        return file;
     }
 }
