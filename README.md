@@ -32,7 +32,7 @@ iFile-Zuul 网关模块 8000
 
 ### CQL
 ```cassandraql
-CREATE KEYSPACE iFile WITH replication = 
+CREATE KEYSPACE iFile WITH replication =
 {'class':'SimpleStrategy', 'replication_factor' : 3};
 
 use iFile;
@@ -40,7 +40,7 @@ use iFile;
 CREATE TABLE user_log(
     username TEXT,
     action TEXT,
-    createtime DATE,
+    createtime TIMESTAMP,
     ip TEXT,
     PRIMARY KEY ((username),createtime)
 );
@@ -48,8 +48,8 @@ CREATE TABLE user_log(
 CREATE TABLE file(
     username TEXT,
     filetype TEXT,
-    createtime DATE,
-    filedata BLOB,
+    createtime TIMESTAMP,
+    fileid BIGINT,
     filename TEXT,
     filesuffix TEXT,
     PRIMARY KEY (( username ),createtime)
@@ -58,9 +58,25 @@ CREATE TABLE file(
 CREATE TABLE user(
     username TEXT,
     password TEXT,
-    kind TEXT
-)
+    kind TEXT,
+    PRIMARY KEY ( kind )
+);
+
+CREATE TABLE filedata(
+    fileid BIGINT,
+    filedata BLOB,
+    fileno BIGINT,
+    PRIMARY KEY ( (fileid),fileno )
+);
+TRUNCATE ifile.filedata;
+TRUNCATE iFile.file;
 ```
+
+### CassandraTemplate批处理  
+使用`template.batchOps()`开启批处理。
+
+### 文件存储  
+Cassandra单独存储大文件会读取超时，所以应将文件分段存储，并将文件表拆分。
 
 ### 为什么使用Cassandra做分布式缓存  
 对字段进行一致性Hash，优化Query效率  
