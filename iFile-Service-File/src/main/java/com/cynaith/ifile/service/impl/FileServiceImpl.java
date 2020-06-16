@@ -1,29 +1,18 @@
-package com.cynaith.ifile.service.Impl;
+package com.cynaith.ifile.service.impl;
 
-import cn.hutool.core.io.file.FileWriter;
 import cn.hutool.core.util.IdUtil;
 import com.cynaith.ifile.pojo.domain.Filedata;
 import com.cynaith.ifile.pojo.domain.Ifile;
 import com.cynaith.ifile.service.FileService;
 import com.cynaith.ifile.utils.FileUtil;
-import com.cynaith.ifile.utils.StringUtil;
+import com.github.houbb.sisyphus.annotation.annotation.Retry;
+import com.github.houbb.sisyphus.annotation.annotation.RetryWait;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.data.cassandra.core.CassandraBatchOperations;
-import org.springframework.data.cassandra.core.CassandraOperations;
 import org.springframework.data.cassandra.core.CassandraTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -182,52 +171,11 @@ public class FileServiceImpl implements FileService {
     }
 
 
+    @Override
+    @Retry
+    public List<Ifile> getFileList(String username) {
+        List<Ifile> ifileList = template.select("select * from ifile.file where username = \'" + username + "\'",Ifile.class);
+        System.out.println("retry");
+        throw new RuntimeException();
+    }
 }
-//
-//
-//
-//
-//    @RequestMapping("file")
-//    public void readFile(String fileid, HttpServletRequest request, HttpServletResponse response){
-//        File file =  fileService.readFile(fileid);
-//        InputStreamResource resource = null;
-//        try {
-//            resource = new InputStreamResource( new FileInputStream( file ) );
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//
-//        String fileCode=(String)System.getProperties().get("file.encoding");
-//
-//        String fileName = file.getName();
-//
-//        try {
-//            fileName = new String (fileName.getBytes(fileCode),fileCode);
-//        } catch (UnsupportedEncodingException e) {
-//            e.printStackTrace();
-//        }
-//        //设置中文文件名与后缀
-//        String encodedFileName = null;
-//        try {
-//            encodedFileName = URLEncoder.encode(fileName,"utf-8").replaceAll("\\+", "%20");
-//        } catch (UnsupportedEncodingException unsupportedEncodingException) {
-//            unsupportedEncodingException.printStackTrace();
-//        }
-//        // 清除buffer缓存
-//        response.reset();
-//        // 指定下载的文件名
-//        response.setHeader("Content-Disposition",
-//                "attachment;filename="+encodedFileName+"");
-//        response.setContentType("application/vnd.ms-excel;charset=UTF-8");
-//        response.setHeader("Pragma", "no-cache");
-//        response.setHeader("Cache-Control", "no-cache");
-//        response.setDateHeader("Expires", 0);
-//
-//        // 操作完上的文件 需要删除在根目录下生成的文件
-//        File f = new File(file.toURI());
-//        if (f.delete()) {
-//            System.out.println("删除成功");
-//        } else {
-//            System.out.println("删除失败");
-//        }
-//    }

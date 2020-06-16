@@ -1,5 +1,6 @@
 package com.cynaith.ifile.controller;
 
+import com.cynaith.ifile.pojo.resultVo.ResponseVo;
 import com.cynaith.ifile.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -86,49 +87,9 @@ public class FileController {
         }
         return responseEntity;
     }
-//
-//    @RequestMapping("file")
-//    public void readFile(String fileid, HttpServletRequest request, HttpServletResponse response){
-//        File file =  fileService.readFile(fileid);
-//        InputStreamResource resource = null;
-//        try {
-//            resource = new InputStreamResource( new FileInputStream( file ) );
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//
-//        String fileCode=(String)System.getProperties().get("file.encoding");
-//
-//        String fileName = file.getName();
-//
-//        try {
-//            fileName = new String (fileName.getBytes(fileCode),fileCode);
-//        } catch (UnsupportedEncodingException e) {
-//            e.printStackTrace();
-//        }
-//        //设置中文文件名与后缀
-//        String encodedFileName = null;
-//        try {
-//            encodedFileName = URLEncoder.encode(fileName,"utf-8").replaceAll("\\+", "%20");
-//        } catch (UnsupportedEncodingException unsupportedEncodingException) {
-//            unsupportedEncodingException.printStackTrace();
-//        }
-//        // 清除buffer缓存
-//        response.reset();
-//        // 指定下载的文件名
-//        response.setHeader("Content-Disposition",
-//                "attachment;filename="+encodedFileName+"");
-//        response.setContentType("application/vnd.ms-excel;charset=UTF-8");
-//        response.setHeader("Pragma", "no-cache");
-//        response.setHeader("Cache-Control", "no-cache");
-//        response.setDateHeader("Expires", 0);
-//        response.
-//        // 操作完上的文件 需要删除在根目录下生成的文件
-//        File f = new File(file.toURI());
-//        if (f.delete()) {
-//            System.out.println("删除成功");
-//        } else {
-//            System.out.println("删除失败");
-//        }
-//    }
+
+    @RequestMapping("filelist")
+    public ResponseVo getFileList(String username){
+        return ResponseVo.ok("ok",fileService.getFileList(username));
+    }
 }
