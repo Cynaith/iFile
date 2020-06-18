@@ -1,15 +1,23 @@
 <template>
   <div id="app">
-    <index></index>
+    <login v-show="!islogin"></login>
+    <index v-show="isloign"></index>
   </div>
 </template>
 
 <script>
 import index from '@/page/index.vue'
+import login from '@/page/login.vue'
 export default {
   name: 'App',
   components: {
-    'index': index
+    'index': index,
+    'login': login
+  },
+  data () {
+    return {
+      islogin: false
+    }
   }
 }
 </script>
