@@ -26,6 +26,7 @@
       ></el-button>
     </transition>
     <el-table
+      v-if="tableData"
       ref="multipleTable"
       :data="tableData"
       tooltip-effect="dark"
@@ -34,13 +35,13 @@
     >
       <el-table-column type="selection" width="55"></el-table-column>
       <el-table-column label="文件名" width="500">
-        <template slot-scope="scope">{{ scope.row.name }}</template>
+        <template slot-scope="scope">{{ scope.row.filename }}</template>
       </el-table-column>
       <el-table-column prop="size" label="大小" width="100"></el-table-column>
       <!-- <el-table-column prop="date" label="修改时间" show-overflow-tooltip></el-table-column> -->
       <el-table-column label="修改时间" width="200">
         <i class="el-icon-time"></i>
-        <template slot-scope="scope">{{ scope.row.date }}</template>
+        <template slot-scope="scope">{{ scope.row.filetype }}</template>
       </el-table-column>
       <el-table-column label="操作" width="300">
         <template slot-scope="scope">
@@ -60,39 +61,22 @@ export default {
   data () {
     return {
       select_delete_button: false,
-      tableData: [{
-        date: '2016-05-03',
-        name: 'java.jar',
-        size: '8.9M'
-      }, {
-        date: '2016-05-02',
-        name: 'java.pdf',
-        size: '8.9M'
-      }, {
-        date: '2016-05-04',
-        name: 'java.jar',
-        size: '8.9M'
-      }, {
-        date: '2016-05-01',
-        name: 'java.jar',
-        size: '8.9M'
-      }, {
-        date: '2016-05-08',
-        name: 'java.doc',
-        size: '8.9M'
-      }, {
-        date: '2016-05-06',
-        name: 'java.jar',
-        size: '8.9M'
-      }, {
-        date: '2016-05-07',
-        name: 'java.jar',
-        size: '8.9M'
-      }],
+      tableData: [],
       multipleSelection: []
     }
   },
+  created: function () {
+    this.getlist();
+  },
   methods: {
+    getlist () {
+      var that = this;
+      let data = { "username": "Cynaith" };
+      this.$axios
+        .post('http://localhost:8002/filelist', data)
+        .then(response => (that.tableData = response.data.obj))
+      console.log(that.tableData)
+    },
     handleSelectionChange (val) {
       this.multipleSelection = val;
       this.select_delete_button = !this.select_delete_button;
