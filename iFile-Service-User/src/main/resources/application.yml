@@ -1,6 +1,12 @@
 spring:
   application:
     name: Service User
+  data:
+    cassandra:
+      cluster-name: Test Cluster
+      keyspace-name: ifile
+      contact-points: 106.12.130.1
+      port: 9042
 server:
   port: 8001
 eureka:
