@@ -1,7 +1,11 @@
 <template>
   <div id="app">
-    <login v-show="!islogin"></login>
-    <index v-show="isloign"></index>
+    <div v-if="!islogin">
+      <login v-on:loginback="loginback"></login>
+    </div>
+    <div v-if="islogin">
+      <index></index>
+    </div>
   </div>
 </template>
 
@@ -17,6 +21,11 @@ export default {
   data () {
     return {
       islogin: false
+    }
+  },
+  methods: {
+    loginback (islogin) {
+      this.islogin = islogin
     }
   }
 }

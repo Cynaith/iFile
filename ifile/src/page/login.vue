@@ -52,8 +52,18 @@ export default {
   },
   methods: {
     login () {
+      var that = this;
+      let data = { "username": this.username, "password": this.password };
       this.$axios
-        .post("http://localhost:8000/api/user/login/")
+        .post("http://localhost:8000/api/user/login", data)
+        .then(response => {
+          that.$emit('loginback', response.data);
+          that.$message({
+            message: '登陆',
+            type: 'success'
+          });
+        })
+
     },
     updateView () {
       this.$forceUpdate()
