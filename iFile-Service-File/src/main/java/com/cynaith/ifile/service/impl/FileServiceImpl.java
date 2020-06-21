@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -27,7 +28,7 @@ public class FileServiceImpl implements FileService {
     private CassandraTemplate template;
 
     @Override
-    public boolean saveFile(MultipartFile multipartFile) {
+    public Ifile saveFile(MultipartFile multipartFile) {
 //        获取文件名、后缀
         String fileName = multipartFile.getOriginalFilename();
         String suffixName = fileName.substring(fileName.lastIndexOf("."));
@@ -66,6 +67,7 @@ public class FileServiceImpl implements FileService {
         ifile.setFilesuffix(suffixName);
         ifile.setFiletype(suffixName);
         ifile.setFilename(fileName);
+        ifile.setFilesize(FileUtil.getPrintSize(file));
 //        System.out.println(filebytes.length);
         template.insert(ifile);
         Filedata filedata = new Filedata();
@@ -101,7 +103,9 @@ public class FileServiceImpl implements FileService {
             System.out.println("删除失败");
         }
 
-        return false;
+        // 将时间放至Type中存放
+        ifile.setFiletype(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(ifile.getCreatetime()));
+        return ifile;
     }
 
     @Override
@@ -126,14 +130,14 @@ public class FileServiceImpl implements FileService {
              *
              * 2. ASCII编码数组转换为 byte[]
              */
-            String[] strings = filestring.replace('[',' ').replace(']',' ').trim().split(",");
+            String[] strings = filestring.replace('[', ' ').replace(']', ' ').trim().split(",");
 
-            for (int j=0; j<strings.length; j++) {
+            for (int j = 0; j < strings.length; j++) {
                 int stringToInt = (int) Integer.parseInt(strings[j].trim());
                 if (stringToInt == 32) {
 
-                }else {
-                    filebytes[count] = (char)stringToInt;
+                } else {
+                    filebytes[count] = (char) stringToInt;
                     count++;
                 }
 
@@ -143,14 +147,14 @@ public class FileServiceImpl implements FileService {
         }
 //        ASCII 转码
         String newStrings = new String(filebytes);
-        String[] newbytes = newStrings.replace("][",",").replace('[',' ').replace(']',' ').trim().split(",");
+        String[] newbytes = newStrings.replace("][", ",").replace('[', ' ').replace(']', ' ').trim().split(",");
 
 //
         byte[] finalbytes = new byte[newbytes.length];
-        for (int i = 0,j = 0; i < finalbytes.length; i++) {
-            try{
+        for (int i = 0, j = 0; i < finalbytes.length; i++) {
+            try {
                 finalbytes[j] = (byte) Integer.parseInt(newbytes[i].trim());
-            }catch (NumberFormatException e){
+            } catch (NumberFormatException e) {
                 continue;
             }
             j++;
@@ -166,16 +170,14 @@ public class FileServiceImpl implements FileService {
         }
 //        System.out.println(Arrays.toString(finalbytes));
 
-        File file = new File("./"+filename);
+        File file = new File("./" + filename);
         return FileUtil.getFile(finalbytes, file);
     }
 
 
     @Override
-    @Retry
     public List<Ifile> getFileList(String username) {
-        List<Ifile> ifileList = template.select("select * from ifile.file where username = \'" + username + "\'",Ifile.class);
-        System.out.println("retry");
-        throw new RuntimeException();
+        List<Ifile> ifileList = template.select("select * from ifile.file where username = \'" + username + "\'", Ifile.class);
+        return ifileList;
     }
 }

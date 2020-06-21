@@ -10,7 +10,7 @@ import java.util.List;
  * @author: Cynaith
  **/
 public interface FileService {
-    boolean saveFile(MultipartFile file);
+    Ifile saveFile(MultipartFile file);
     File readFile(String fileid);
     List<Ifile> getFileList(String username);
 }

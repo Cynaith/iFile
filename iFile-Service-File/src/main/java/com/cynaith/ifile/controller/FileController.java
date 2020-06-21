@@ -1,5 +1,10 @@
 package com.cynaith.ifile.controller;
 
+import cn.hutool.json.JSONString;
+import cn.hutool.json.JSONSupport;
+import cn.hutool.json.JSONUtil;
+import com.alibaba.fastjson.JSONObject;
+import com.cynaith.ifile.pojo.domain.Ifile;
 import com.cynaith.ifile.pojo.resultVo.ResponseVo;
 import com.cynaith.ifile.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,10 +12,7 @@ import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +20,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author: Cynaith
@@ -33,9 +39,8 @@ public class FileController {
 
 
     @RequestMapping(value = "upload")
-    public int uploadFile(@RequestParam("file")MultipartFile file) throws IOException {
-        fileService.saveFile(file);
-        return 200;
+    public ResponseVo uploadFile(@RequestParam("file")MultipartFile file) throws IOException {
+        return ResponseVo.ok("ok",fileService.saveFile(file));
     }
 
     @RequestMapping("file")
@@ -89,7 +94,13 @@ public class FileController {
     }
 
     @RequestMapping("filelist")
-    public ResponseVo getFileList(String username){
-        return ResponseVo.ok("ok",fileService.getFileList(username));
+    public ResponseVo getFileList(@RequestBody String string){
+        JSONObject jsonObject = JSONObject.parseObject(string);
+        String username = (String) jsonObject.get("username");
+        List<Ifile> ifileList = fileService.getFileList(username);
+        for (Ifile ifile : ifileList) {
+            ifile.setFiletype(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(ifile.getCreatetime()));
+        }
+        return ResponseVo.ok("ok",ifileList);
     }
 }

@@ -24,6 +24,8 @@ public class Ifile implements Serializable {
   private String filename;
   @Column("filesuffix")
   private String filesuffix;
+  @Column("filesize")
+  private String filesize;
   @Column("filetype")
   private String filetype;
 
@@ -51,6 +53,14 @@ public class Ifile implements Serializable {
 
   public void setFileid(String fileid) {
     this.fileid = fileid;
+  }
+
+  public String getFilesize() {
+    return filesize;
+  }
+
+  public void setFilesize(String filesize) {
+    this.filesize = filesize;
   }
 
   public String getFilename() {
