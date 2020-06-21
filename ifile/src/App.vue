@@ -4,7 +4,7 @@
       <login v-on:loginback="loginback"></login>
     </div>
     <div v-if="islogin">
-      <index></index>
+      <index :name="this.username"></index>
     </div>
   </div>
 </template>
@@ -20,12 +20,14 @@ export default {
   },
   data () {
     return {
-      islogin: false
+      islogin: false,
+      username: null
     }
   },
   methods: {
-    loginback (islogin) {
-      this.islogin = islogin
+    loginback (islogin, name) {
+      this.islogin = islogin,
+        this.username = name
     }
   }
 }

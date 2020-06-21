@@ -57,9 +57,9 @@ export default {
       this.$axios
         .post("http://localhost:8000/api/user/login", data)
         .then(response => {
-          that.$emit('loginback', response.data);
+          that.$emit('loginback', response.data, that.username);
           that.$message({
-            message: '登陆',
+            message: '登陆成功',
             type: 'success'
           });
         })

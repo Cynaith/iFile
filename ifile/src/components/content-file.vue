@@ -1,9 +1,10 @@
 <template>
   <div id="content-file">
     <el-upload
-      id="upload-button"
+      class="upload-button"
       action="http://localhost:8002/upload"
       :beforeUpload="beforeAvatarUpload"
+      :on-success="(response, file, fileList) => fileUpload(response)"
     >
       <el-button size="small" type="primary">点击上传</el-button>
     </el-upload>
@@ -34,10 +35,10 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" width="55"></el-table-column>
-      <el-table-column label="文件名" width="500">
+      <el-table-column label="文件名" width="400">
         <template slot-scope="scope">{{ scope.row.filename }}</template>
       </el-table-column>
-      <el-table-column prop="size" label="大小" width="100"></el-table-column>
+      <el-table-column prop="filesize" label="大小" width="100"></el-table-column>
       <!-- <el-table-column prop="date" label="修改时间" show-overflow-tooltip></el-table-column> -->
       <el-table-column label="修改时间" width="200">
         <i class="el-icon-time"></i>
@@ -45,8 +46,8 @@
       </el-table-column>
       <el-table-column label="操作" width="300">
         <template slot-scope="scope">
-          <el-button @click="handleEdit(scope.$index, scope.row)">分享</el-button>
-          <el-button @click="handleEdit(scope.$index, scope.row)">下载</el-button>
+          <el-button @click="handleShare(scope.row)">分享</el-button>
+          <el-button @click="handleDownload(scope.row)">下载</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -65,15 +66,16 @@ export default {
       multipleSelection: []
     }
   },
+  props: ['name'],
   created: function () {
     this.getlist();
   },
   methods: {
     getlist () {
       var that = this;
-      let data = { "username": "Cynaith" };
+      let data = { "username": this.name };
       this.$axios
-        .post('http://localhost:8002/filelist', data)
+        .post('http://localhost:8000/api/file/filelist', data)
         .then(response => (that.tableData = response.data.obj))
       console.log(that.tableData)
     },
@@ -88,13 +90,20 @@ export default {
         this.$message.error('上传文件不能超过 500KB!');
       }
       return isLt500KB;
+    },
+    fileUpload (response) {
+
+      this.tableData.push(response.obj)
+    },
+    handleDownload (row) {
+      window.location.href = "http://localhost:8002/api/file/file?fileid=" + row.fileid;
     }
   }
 }
 </script>
 
 <style>
-#upload-button {
+.upload-button {
   float: left;
   margin-left: 20px;
   margin-top: 15px;

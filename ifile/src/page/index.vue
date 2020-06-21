@@ -31,8 +31,8 @@
           </el-menu-item>
         </el-menu>
       </el-col>
-      <el-col :span="25">
-        <ContentFile></ContentFile>
+      <el-col :span="20">
+        <ContentFile :name="this.name"></ContentFile>
       </el-col>
     </div>
   </div>
@@ -46,7 +46,13 @@ export default {
   components: {
     Header,
     ContentFile
-  }
+  },
+  data () {
+    return {
+      username: null
+    }
+  },
+  props: ['name']
 }
 </script>
 
