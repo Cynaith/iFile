@@ -46,6 +46,11 @@ public class PreAuthFilter extends ZuulFilter {
     //判断是否应该被拦截
     @Override
     public boolean shouldFilter() {
+        RequestContext ctx = RequestContext.getCurrentContext();
+        HttpServletRequest request = ctx.getRequest();
+        if (request.getMethod().equals("OPTIONS")) {
+            return false;
+        }
         return true;
     }
 
