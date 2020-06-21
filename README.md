@@ -49,9 +49,10 @@ CREATE TABLE file(
     username TEXT,
     filetype TEXT,
     createtime TIMESTAMP,
-    fileid BIGINT,
+    fileid TEXT,
     filename TEXT,
     filesuffix TEXT,
+    filesize TEXT,
     PRIMARY KEY (( username ),createtime)
 );
 
@@ -63,13 +64,14 @@ CREATE TABLE user(
 );
 
 CREATE TABLE filedata(
-    fileid BIGINT,
+    fileid TEXT,
     filedata BLOB,
     fileno BIGINT,
     PRIMARY KEY ( (fileid),fileno )
 );
 TRUNCATE ifile.filedata;
 TRUNCATE iFile.file;
+
 ```
 
 ### CassandraTemplate批处理  
