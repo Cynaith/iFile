@@ -4,10 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.cynaith.ifile.service.UserService;
 import com.cynaith.ifile.util.GetRequestJsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.net.ssl.SSLSessionContext;
 import javax.servlet.http.Cookie;
@@ -22,6 +19,7 @@ import java.util.UUID;
  **/
 
 @RestController
+@CrossOrigin
 public class UserController {
 
     @Autowired
