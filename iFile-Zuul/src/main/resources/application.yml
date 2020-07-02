@@ -15,7 +15,8 @@ zuul:
   add-host-header: true
   host:
     connect-timeout-millis: 10000
-  sensitive-headers:
+  sensitive-headers: Access-Control-Allow-Origin
+  ignored-headers: Access-Control-Allow-Origin,Vary,X-Frame-Options,token
   prefix: /api
   routes:
     user:
