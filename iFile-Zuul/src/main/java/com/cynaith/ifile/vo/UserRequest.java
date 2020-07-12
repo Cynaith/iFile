@@ -6,6 +6,7 @@ package com.cynaith.ifile.vo;
 public class UserRequest {
     String username;
     String password;
+    String usertoken;
 
     public String getUsername() {
         return username;
@@ -21,5 +22,13 @@ public class UserRequest {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getUsertoken() {
+        return usertoken;
+    }
+
+    public void setUsertoken(String usertoken) {
+        this.usertoken = usertoken;
     }
 }
